@@ -70,7 +70,7 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 8. Create a `POST` endpoint to get questions to play the quiz. This endpoint should take a category and previous question parameters and return a random questions within the given category, if provided, and that is not one of the previous questions.
 9. Create error handlers for all expected errors including 400, 404, 422, and 500.
 
-## Documenting your Endpoints
+## Documenting Endpoints
 
 1. `GET '/categories'`
 
@@ -108,7 +108,7 @@ One note before you delve into your tasks: for each endpoint, you are expected t
     },
     ...
   ],
-  "total_questions": len(questions),
+  "total_questions": "total of questions",
   "categories": {
     "1": "Science",
     "2": "Art",
@@ -166,7 +166,7 @@ One note before you delve into your tasks: for each endpoint, you are expected t
     },
     ...
   ],
-  "total_questions": len(questions),
+  "total_questions": "total of questions",
   "categories": {
     "1": "Science",
     "2": "Art",
@@ -198,7 +198,7 @@ One note before you delve into your tasks: for each endpoint, you are expected t
     },
     ...
   ],
-  "total_questions": len(questions),
+  "total_questions": "total of questions",
   "categories": {
     "1": "Science",
     "2": "Art",
@@ -242,4 +242,4 @@ psql -U postgres trivia_test
 \i 'path:/trivia.psql'
 python test_flaskr.py
 ```
-![Test result](./assets/test_result.PNG)
+![Test result](./assets/test_result.png)
