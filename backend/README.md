@@ -242,4 +242,4 @@ psql -U postgres trivia_test
 \i 'path:/trivia.psql'
 python test_flaskr.py
 ```
-![Test result](./assets/test_result.png)
+![Test result](./assets/test_result.PNG)
