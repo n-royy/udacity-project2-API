@@ -73,7 +73,7 @@ def create_app(test_config=None):
             "questions": formatted_questions[start:end],
             "total_questions": len(formatted_questions),
             "categories": categories_dict,
-            "currentCategory": ''
+            "current_category": ''
         })
 
     """
@@ -142,8 +142,8 @@ def create_app(test_config=None):
         return jsonify({
             "success": True,
             "questions": formatted_questions,
-            "totalQuestions": len(formatted_questions),
-            'currentCategory': None
+            "total_questions": len(formatted_questions),
+            'current_category': None
         })
 
     """
@@ -163,8 +163,8 @@ def create_app(test_config=None):
         return jsonify({
             "success": True,
             "questions": formatted_questions,
-            "totalQuestions": len(formatted_questions),
-            "currentCategory": current_category.type
+            "total_questions": len(formatted_questions),
+            "current_category": current_category.type
         })
 
     """
@@ -178,7 +178,7 @@ def create_app(test_config=None):
     one question at a time is displayed, the user is allowed to answer
     and shown whether they were correct or not.
     """
-    @app.route("/quiz", methods=["POST"])
+    @app.route("/quizzes", methods=["POST"])
     def get_quiz_question():
         data = request.get_json()
         previous_questions = data["previous_questions"]
