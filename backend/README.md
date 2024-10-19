@@ -4,7 +4,7 @@
 
 ### Install Dependencies
 
-1. **Python 3.7** - Follow instructions to install the latest version of python for your platform in the [python docs](https://docs.python.org/3/using/unix.html#getting-and-installing-the-latest-version-of-python)
+1. **Python 3.8** - Follow instructions to install the latest version of python for your platform in the [python docs](https://docs.python.org/3/using/unix.html#getting-and-installing-the-latest-version-of-python)
 
 2. **Virtual Environment** - We recommend working within a virtual environment whenever using Python for projects. This keeps your dependencies for each project separate and organized. Instructions for setting up a virual environment for your platform can be found in the [python docs](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
 
@@ -33,7 +33,8 @@ createdb trivia
 Populate the database using the `trivia.psql` file provided. From the `backend` folder in terminal run:
 
 ```bash
-psql trivia < trivia.psql
+psql -U postgres trivia
+\i 'path:/trivia.psql'
 ```
 
 ### Run the Server
@@ -43,6 +44,8 @@ From within the `./src` directory first ensure you are working using your create
 To run the server, execute:
 
 ```bash
+set FLASK_APP=flaskr
+set FLASK_ENV=development
 flask run --reload
 ```
 
@@ -69,11 +72,7 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 
 ## Documenting your Endpoints
 
-You will need to provide detailed documentation of your API endpoints including the URL, request parameters, and the response body. Use the example below as a reference.
-
-### Documentation Example
-
-`GET '/api/v1.0/categories'`
+1. `GET '/categories'`
 
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
@@ -90,6 +89,146 @@ You will need to provide detailed documentation of your API endpoints including 
 }
 ```
 
+2. `GET '/questions?page=${Interger}'`
+
+- Fetches a paginated set of questions, a total number of questions, all categories and current category
+- Request Arguments: `page` - Integer
+- Returns: An object contain a list of paginated question items, total questions, all categories, and current category
+
+```json
+{
+  "success": true,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Hematology is a branch of medicine involving the study of what?",
+      "answer": "Blood",
+      "category": 3,
+      "difficulty": 1
+    },
+    ...
+  ],
+  "total_questions": len(questions),
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "current_category": "Geography"
+}
+```
+
+3. `DELETE '/questions/${id}'`
+
+- Deletes a specified question using the id of the question
+- Request Arguments: `id` - Integer
+- Returns: None
+
+```json
+{
+  "success": true,
+  "message": "Question deleted successfully"
+}
+```
+
+3. `POST '/questions'`
+
+- Sends a post request to create a new question
+- Request Body: json("question": String, "answer": String, "difficulty": Integer, "category": Integer)
+- Returns: None
+
+```json 
+{
+  "success": true,
+  "message": "Question created successfully"
+}
+```
+
+4. `POST '/questions/search'`
+  
+- Sends a post request to search questions by search term
+- Request Body: json("searchTerm": String)
+- Returns: An object with list of questions, total questions and current category corresponding with searchTerm.
+
+```json
+{
+  "success": true,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Hematology is a branch of medicine involving the study of what?",
+      "answer": "Blood",
+      "category": 3,
+      "difficulty": 1
+    },
+    ...
+  ],
+  "total_questions": len(questions),
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "current_category": "Geography"
+}
+```
+
+5. `GET '/categories/${id}/questions'`
+  
+- Fetches questions of category by categoryId
+- Request Arguments: `id` - Integer
+- Returns: An object with list of questions, total questions and current category corresponding with categoryId.
+
+```json
+{
+  "success": true,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Hematology is a branch of medicine involving the study of what?",
+      "answer": "Blood",
+      "category": 3,
+      "difficulty": 1
+    },
+    ...
+  ],
+  "total_questions": len(questions),
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "current_category": "Geography"
+}
+```
+
+6. `POST '/quizzes'`
+- Sends a post request to get the next random question
+- Request Body: json("previous_questions": [1], "quiz_category": "Science")
+- Returns: a single new question object
+
+```json
+{
+  "success": true,
+  "question": {
+    "id": 1,
+    "question": "Hematology is a branch of medicine involving the study of what?",
+    "answer": "Blood",
+    "category": 3,
+    "difficulty": 1
+  }
+}
+```
+
 ## Testing
 
 Write at least one test for the success and at least one error behavior of each endpoint using the unittest library.
@@ -99,6 +238,8 @@ To deploy the tests, run
 ```bash
 dropdb trivia_test
 createdb trivia_test
-psql trivia_test < trivia.psql
+psql -U postgres trivia_test
+\i 'path:/trivia.psql'
 python test_flaskr.py
 ```
+![Test result](./assets/test_result.PNG)
