@@ -243,3 +243,6 @@ psql -U postgres trivia_test
 python test_flaskr.py
 ```
 ![Test result](./assets/test_result.PNG)
+
+The result of UT when adding .env
+![Test result](./assets/test_result2.PNG)

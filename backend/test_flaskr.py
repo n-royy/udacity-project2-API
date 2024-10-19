@@ -11,12 +11,8 @@ class TriviaTestCase(unittest.TestCase):
 
     def setUp(self):
         """Define test variables and initialize app."""
-        self.database_name = "trivia_test"
-        self.database_path = "postgresql://{}:{}@{}/{}".format('postgres','postgres', 'localhost:5432', self.database_name)
-
         self.app = create_app()
         self.app.config['TESTING'] = True
-        self.app.config['SQLALCHEMY_DATABASE_URI'] = self.database_path
 
         self.client = self.app.test_client()
         with self.app.app_context():
@@ -96,7 +92,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(createData["message"], "Question created successfully")
 
         # DELETE /questions/<int:question_id>
-        deleteResponse = self.client.delete("/questions/3")
+        deleteResponse = self.client.delete("/questions/1")
         deleteData = json.loads(deleteResponse.data)
 
         self.assertEqual(deleteResponse.status_code, 200)
