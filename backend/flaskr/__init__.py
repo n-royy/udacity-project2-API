@@ -164,7 +164,7 @@ def create_app(test_config=None):
             "success": True,
             "questions": formatted_questions,
             "total_questions": len(formatted_questions),
-            "current_category": current_category.type
+            "current_category": current_category.type if current_category else 0
         })
 
     """
@@ -188,14 +188,13 @@ def create_app(test_config=None):
         else:
             questions = (Question.query.filter(cast(Question.category, Integer) == quiz_category["id"])
                             .filter(Question.id.notin_(previous_questions)).all())
-        if len(questions) == 0:
-            abort(404)
-        else :
+
+        result = {"success": True}
+        if len(questions) != 0:
             formatted_questions = [question.format() for question in questions]
-            return jsonify({
-                "success": True,
-                "question": random.choice(formatted_questions)
-            })
+            result["question"] = random.choice(formatted_questions)
+
+        return jsonify(result)
 
     """
     @DONE:
